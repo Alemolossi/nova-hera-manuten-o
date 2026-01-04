@@ -1,8 +1,23 @@
 import React from 'react';
 import { Phone, Mail, MapPin, Smartphone, Instagram, Facebook } from 'lucide-react';
 
-const Footer = () => {
+interface FooterProps {
+  onNavigate: (page: string) => void;
+}
+
+const Footer = ({ onNavigate }: FooterProps) => {
   const mapUrl = "https://www.google.com/maps/search/?api=1&query=Rua+Bores+de+Medeiros,+649,+Jardim+Gisela,+Toledo,+Parana";
+  
+  const handleNavClick = (e: React.MouseEvent, page: string, sectionId?: string) => {
+    e.preventDefault();
+    onNavigate(page);
+    if (sectionId && page === 'home') {
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) element.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+  };
   
   return (
     <footer className="bg-black text-slate-400 pt-16 border-t border-slate-800">
@@ -25,10 +40,10 @@ const Footer = () => {
           <div>
             <h4 className="text-white font-bold mb-6">Links Rápidos</h4>
             <ul className="space-y-3 text-sm">
-              <li><a href="#hero" className="hover:text-brand-accent transition-colors">Início</a></li>
-              <li><a href="#about" className="hover:text-brand-accent transition-colors">Sobre Nós</a></li>
-              <li><a href="#services" className="hover:text-brand-accent transition-colors">Serviços</a></li>
-              <li><a href="#contact" className="hover:text-brand-accent transition-colors">Contato</a></li>
+              <li><a href="#hero" onClick={(e) => handleNavClick(e, 'home', 'hero')} className="hover:text-brand-accent transition-colors">Início</a></li>
+              <li><a href="#" onClick={(e) => handleNavClick(e, 'company')} className="hover:text-brand-accent transition-colors">Sobre Nós</a></li>
+              <li><a href="#" onClick={(e) => handleNavClick(e, 'company')} className="hover:text-brand-accent transition-colors">Serviços</a></li>
+              <li><a href="#testimonials" onClick={(e) => handleNavClick(e, 'home', 'testimonials')} className="hover:text-brand-accent transition-colors">Clientes</a></li>
             </ul>
           </div>
 

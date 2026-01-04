@@ -1,7 +1,11 @@
 import React from 'react';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 
-const Hero = () => {
+interface HeroProps {
+  onNavigate: (page: string) => void;
+}
+
+const Hero = ({ onNavigate }: HeroProps) => {
   const whatsappLink = "https://wa.me/5545998585908?text=Ol%C3%A1%2C%20gostaria%20do%20meu%20diagn%C3%B3stico%20gratuito.";
 
   return (
@@ -33,7 +37,7 @@ const Hero = () => {
           
           <p className="text-lg md:text-xl text-slate-300 mb-8 leading-relaxed max-w-2xl border-l-4 border-brand-cta pl-4">
             Diagnóstico Gratuito com <strong>Laudo Técnico em 24h</strong>. 
-            Garantia de 180 Dias. Realizamos a coleta e instalação dos equipamentos.
+            Garantia de 180&nbsp;Dias. Realizamos a coleta e instalação dos equipamentos.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 mb-12">
@@ -47,12 +51,12 @@ const Hero = () => {
               <ArrowRight className="group-hover:translate-x-1 transition-transform" />
             </a>
             
-            <a 
-              href="#about"
+            <button 
+              onClick={() => onNavigate('company')}
               className="px-8 py-4 rounded-lg font-bold text-lg text-white border border-slate-600 hover:border-brand-accent hover:bg-brand-accent/5 transition-all flex items-center justify-center"
             >
               Conhecer a Empresa
-            </a>
+            </button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm font-medium text-slate-300">

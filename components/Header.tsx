@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Zap } from 'lucide-react';
 
-const Header = () => {
+interface HeaderProps {
+  onNavigate: (page: string) => void;
+}
+
+const Header = ({ onNavigate }: HeaderProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -15,6 +19,17 @@ const Header = () => {
 
   const whatsappLink = "https://wa.me/5545998585908?text=Ol%C3%A1%2C%20gostaria%20de%20um%20or%C3%A7amento%20para%20meu%20inversor.";
 
+  const handleNavClick = (page: string, sectionId?: string) => {
+    onNavigate(page);
+    setIsMobileMenuOpen(false);
+    if (sectionId && page === 'home') {
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) element.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+  };
+
   return (
     <header 
       className={`fixed w-full z-50 transition-all duration-300 ${
@@ -25,7 +40,10 @@ const Header = () => {
     >
       <div className="container mx-auto px-4 flex justify-between items-center">
         {/* Logo */}
-        <div className="flex items-center gap-3 group cursor-pointer">
+        <div 
+          className="flex items-center gap-3 group cursor-pointer"
+          onClick={() => handleNavClick('home')}
+        >
           <div className="bg-brand-accent/10 p-2 rounded-full border border-brand-accent/50 group-hover:shadow-[0_0_15px_rgba(6,182,212,0.5)] transition-all">
             <Zap className="text-brand-accent h-6 w-6" />
           </div>
@@ -37,9 +55,9 @@ const Header = () => {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-8">
-          <a href="#hero" className="text-sm font-medium hover:text-brand-accent transition-colors">Início</a>
-          <a href="#about" className="text-sm font-medium hover:text-brand-accent transition-colors">Sobre</a>
-          <a href="#testimonials" className="text-sm font-medium hover:text-brand-accent transition-colors">Clientes</a>
+          <button onClick={() => handleNavClick('home', 'hero')} className="text-sm font-medium hover:text-brand-accent transition-colors text-slate-300">Início</button>
+          <button onClick={() => handleNavClick('company')} className="text-sm font-medium hover:text-brand-accent transition-colors text-slate-300">Sobre a Empresa</button>
+          <button onClick={() => handleNavClick('home', 'testimonials')} className="text-sm font-medium hover:text-brand-accent transition-colors text-slate-300">Clientes</button>
           <a 
             href={whatsappLink}
             target="_blank"
@@ -62,9 +80,9 @@ const Header = () => {
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div className="md:hidden absolute top-full left-0 w-full bg-brand-dark border-b border-brand-accent/20 p-4 flex flex-col gap-4 shadow-2xl">
-          <a href="#hero" className="text-center py-2 hover:text-brand-accent" onClick={() => setIsMobileMenuOpen(false)}>Início</a>
-          <a href="#about" className="text-center py-2 hover:text-brand-accent" onClick={() => setIsMobileMenuOpen(false)}>Sobre</a>
-          <a href="#testimonials" className="text-center py-2 hover:text-brand-accent" onClick={() => setIsMobileMenuOpen(false)}>Clientes</a>
+          <button className="text-center py-2 hover:text-brand-accent text-slate-300" onClick={() => handleNavClick('home', 'hero')}>Início</button>
+          <button className="text-center py-2 hover:text-brand-accent text-slate-300" onClick={() => handleNavClick('company')}>Sobre a Empresa</button>
+          <button className="text-center py-2 hover:text-brand-accent text-slate-300" onClick={() => handleNavClick('home', 'testimonials')}>Clientes</button>
           <a 
             href={whatsappLink}
             className="bg-brand-cta text-white py-3 rounded text-center font-bold"
